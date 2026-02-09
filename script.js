@@ -126,8 +126,10 @@ async function renderizarContenido() {
     const pasosHTML = data.metodologia.pasos.map((paso, i) => `
       <div class="metodo-paso" style="${gridPlacements[i]}">
         <span class="metodo-semana">${paso.semana}</span>
-        <h3>${paso.titulo}</h3>
-        <p>${paso.descripcion.replace(/\n/g, "<br>")}</p>
+        <div class="metodo-texto">
+          <h3>${paso.titulo}</h3>
+          <p>${paso.descripcion.replace(/\n/g, "<br>")}</p>
+        </div>
       </div>
     `).join("");
 
@@ -224,22 +226,7 @@ function actualizarHeader() {
   const pageBtn = headerEl.querySelector(".header-pagename");
   const nombre = getNombrePagina();
 
-  // Build small inline minimap
-  let minimapHTML = `<span class="header-minimap" style="grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(2,1fr);">`;
-  for (let y = 0; y < grid.length; y++) {
-    for (let x = 0; x < grid[y].length; x++) {
-      const activa = (y === posY && x === posX) ? " activa" : "";
-      const invis = grid[y][x] === 0 ? " invisible" : "";
-      // Aspect ratio: use device proportions
-      const aspect = window.innerWidth / window.innerHeight;
-      const cellW = Math.round(Math.max(5, Math.min(10, 7 * aspect)));
-      const cellH = Math.round(Math.max(5, Math.min(10, 7 / aspect)));
-      minimapHTML += `<span class="header-minimap-cell${activa}${invis}" style="width:${cellW}px;height:${cellH}px;"></span>`;
-    }
-  }
-  minimapHTML += `</span>`;
-
-  pageBtn.innerHTML = `${nombre} ${minimapHTML}`;
+  pageBtn.textContent = nombre;
 
   // Update langs
   const langsDiv = headerEl.querySelector(".header-langs");
@@ -278,11 +265,13 @@ function crearOverlay() {
       cell.dataset.y = y;
       cell.dataset.x = x;
 
-      // Expanded cells also match device aspect ratio
-      const aspect = window.innerWidth / window.innerHeight;
-      const baseSize = Math.min(window.innerWidth * 0.12, 120);
-      cell.style.width = `${Math.round(baseSize * Math.min(aspect, 1.5))}px`;
-      cell.style.height = `${Math.round(baseSize / Math.max(aspect, 0.67))}px`;
+      // Match device aspect ratio: wider on landscape, taller on portrait
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const aspect = vw / vh;
+      const base = Math.min(vw * 0.12, 120);
+      cell.style.width = `${Math.round(base)}px`;
+      cell.style.height = `${Math.round(base / aspect)}px`;
 
       if (grid[y][x] === 0) {
         cell.classList.add("invisible");

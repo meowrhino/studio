@@ -11,6 +11,7 @@ html, body {
   box-sizing: border-box;
   font-family: "Inknut Antiqua", serif;
   font-weight: 400;
+  line-height: 1.3;
   scroll-behavior: smooth;
   background: #ffffff;
   color: #000000;
@@ -78,6 +79,7 @@ p, h1, h2, h3 {
   left: 3dvw;
   z-index: 100;
   font-family: "Inknut Antiqua", serif;
+  line-height: 1;
 }
 
 .header-pagename {
@@ -98,30 +100,8 @@ p, h1, h2, h3 {
   color: #555;
 }
 
-/* Small minimap inline next to page name */
-.header-minimap {
-  display: inline-grid;
-  gap: 2px;
-  vertical-align: middle;
-}
-
-.header-minimap-cell {
-  width: clamp(5px, 0.5dvw, 8px);
-  background: #c0c0c0;
-  border: none;
-  padding: 0;
-}
-
-.header-minimap-cell.activa {
-  background: #000000;
-}
-
-.header-minimap-cell.invisible {
-  visibility: hidden;
-}
-
 .header-langs {
-  margin-top: 0.4em;
+  margin-top: 0.2em;
   font-size: clamp(0.65rem, 0.85dvw, 0.85rem);
   color: #999;
   display: flex;
@@ -309,7 +289,7 @@ p, h1, h2, h3 {
 .statement-content {
   text-align: center;
   max-width: 800px;
-  line-height: 2;
+  line-height: 1.6;
   font-size: clamp(0.85rem, 1.2dvw, 1.15rem);
 }
 
@@ -387,28 +367,28 @@ p, h1, h2, h3 {
   .metodo-zigzag {
     display: flex;
     flex-direction: column;
-    gap: 3.5dvh;
+    align-items: center;
+    gap: 2.5dvh;
+  }
+
+  .metodo-paso {
+    text-align: center;
+    padding-left: 2em;
+    position: relative;
+    width: 75%;
+    max-width: 320px;
   }
 
   .metodo-paso .metodo-semana {
     display: block;
-    font-size: clamp(0.6rem, 2.5dvw, 0.75rem);
+    font-size: clamp(0.55rem, 2dvw, 0.7rem);
     font-weight: 700;
-    margin-bottom: 0.3em;
-    padding-left: 0;
-  }
-
-  .metodo-paso {
-    text-align: left;
-    padding-left: 0;
-  }
-
-  .metodo-paso h3 {
-    padding-left: 2em;
-  }
-
-  .metodo-paso p {
-    padding-left: 2em;
+    white-space: nowrap;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: rotate(90deg);
+    transform-origin: top left;
   }
 
   .metodo-timeline-bar {
@@ -423,7 +403,7 @@ p, h1, h2, h3 {
 .pricing-content {
   text-align: center;
   max-width: 750px;
-  line-height: 2;
+  line-height: 1.6;
 }
 
 .pricing-content h2 {
@@ -461,7 +441,7 @@ p, h1, h2, h3 {
 .politicas-content {
   text-align: center;
   max-width: 800px;
-  line-height: 2;
+  line-height: 1.6;
   font-size: clamp(0.8rem, 1.1dvw, 1rem);
 }
 
