@@ -110,19 +110,17 @@ async function renderizarContenido() {
     statementEl.innerHTML = `<div class="statement-content">${lineas}</div>`;
   }
 
-  // METODOLOGIA - zigzag layout
-  // 5 columns, each paso centered on its column
-  // Row 1 (top): sem0=col1, sem2=col3, sem4=col5
-  // Row 2 (bottom): sem1=col2, sem3=col4
-  // Row 3: timeline bar with all 5 semana labels
+  // METODOLOGIA - zigzag on 10-column grid
+  // Top row: sem0=cols 1-2, sem2=cols 5-6, sem4=cols 9-10
+  // Bottom row: sem1=cols 2-5 (overlaps into sem0 & sem2 space), sem3=cols 6-9
   const metodoEl = document.querySelector(".celda.metodologia");
   if (metodoEl && data.metodologia) {
     const gridPlacements = [
-      "grid-row:1; grid-column:1;",  // sem 0
-      "grid-row:2; grid-column:2;",  // sem 1
-      "grid-row:1; grid-column:3;",  // sem 2
-      "grid-row:2; grid-column:4;",  // sem 3
-      "grid-row:1; grid-column:5;",  // sem 4
+      "grid-row:1; grid-column:1 / span 2;",    // sem 0
+      "grid-row:2; grid-column:2 / span 4;",    // sem 1 — expands into 0's right & 2's left
+      "grid-row:1; grid-column:5 / span 2;",    // sem 2
+      "grid-row:2; grid-column:6 / span 4;",    // sem 3 — expands into 2's right & 4's left
+      "grid-row:1; grid-column:9 / span 2;",    // sem 4
     ];
 
     const pasosHTML = data.metodologia.pasos.map((paso, i) => `
@@ -189,42 +187,82 @@ async function renderizarContenido() {
 }
 
 // ============================================
-// MINIMAP (small, top-right corner)
+// HEADER: page name + small minimap + langs
 // ============================================
 
-let minimapEl = null;
+let headerEl = null;
 let overlayEl = null;
 
-function crearMinimap() {
-  // Small minimap - single clickable area
-  minimapEl = document.createElement("div");
-  minimapEl.classList.add("minimap");
-  minimapEl.style.gridTemplateColumns = `repeat(5, 1fr)`;
-  minimapEl.style.gridTemplateRows = `repeat(2, 1fr)`;
+function getNombrePagina() {
+  const clave = `${posY}_${posX}`;
+  return nombresEspeciales[clave] || "";
+}
 
+function crearHeader() {
+  headerEl = document.createElement("div");
+  headerEl.classList.add("header-topleft");
+
+  // Page name button (opens minimap overlay)
+  const pageBtn = document.createElement("button");
+  pageBtn.classList.add("header-pagename");
+  pageBtn.addEventListener("click", () => abrirMinimapExpandido());
+  headerEl.appendChild(pageBtn);
+
+  // Lang switcher below
+  const langsDiv = document.createElement("div");
+  langsDiv.classList.add("header-langs");
+  headerEl.appendChild(langsDiv);
+
+  document.body.appendChild(headerEl);
+  actualizarHeader();
+}
+
+function actualizarHeader() {
+  if (!headerEl) return;
+
+  // Update page name + inline minimap
+  const pageBtn = headerEl.querySelector(".header-pagename");
+  const nombre = getNombrePagina();
+
+  // Build small inline minimap
+  let minimapHTML = `<span class="header-minimap" style="grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(2,1fr);">`;
   for (let y = 0; y < grid.length; y++) {
     for (let x = 0; x < grid[y].length; x++) {
-      const cell = document.createElement("div");
-      cell.classList.add("minimap-cell");
-      cell.dataset.y = y;
-      cell.dataset.x = x;
-
-      if (grid[y][x] === 0) {
-        cell.classList.add("invisible");
-      }
-
-      minimapEl.appendChild(cell);
+      const activa = (y === posY && x === posX) ? " activa" : "";
+      const invis = grid[y][x] === 0 ? " invisible" : "";
+      // Aspect ratio: use device proportions
+      const aspect = window.innerWidth / window.innerHeight;
+      const cellW = Math.round(Math.max(5, Math.min(10, 7 * aspect)));
+      const cellH = Math.round(Math.max(5, Math.min(10, 7 / aspect)));
+      minimapHTML += `<span class="header-minimap-cell${activa}${invis}" style="width:${cellW}px;height:${cellH}px;"></span>`;
     }
   }
+  minimapHTML += `</span>`;
 
-  // Click anywhere on the minimap opens the expanded view
-  minimapEl.addEventListener("click", () => {
-    abrirMinimapExpandido();
+  pageBtn.innerHTML = `${nombre} ${minimapHTML}`;
+
+  // Update langs
+  const langsDiv = headerEl.querySelector(".header-langs");
+  const langs = ["es", "en", "cat"];
+  langsDiv.innerHTML = langs.map((lang, i) => {
+    const active = lang === currentLang ? ' class="active"' : '';
+    const sep = i < langs.length - 1 ? '<span class="lang-sep">/</span>' : '';
+    return `<span${active} data-lang="${lang}">${lang}</span>${sep}`;
+  }).join("");
+
+  langsDiv.querySelectorAll("span[data-lang]").forEach(el => {
+    el.addEventListener("click", () => {
+      currentLang = el.dataset.lang;
+      renderizarContenido().then(() => actualizarVista());
+    });
   });
+}
 
-  document.body.appendChild(minimapEl);
+// ============================================
+// EXPANDED MINIMAP (overlay)
+// ============================================
 
-  // Expanded minimap overlay
+function crearOverlay() {
   overlayEl = document.createElement("div");
   overlayEl.classList.add("minimap-overlay");
 
@@ -240,6 +278,12 @@ function crearMinimap() {
       cell.dataset.y = y;
       cell.dataset.x = x;
 
+      // Expanded cells also match device aspect ratio
+      const aspect = window.innerWidth / window.innerHeight;
+      const baseSize = Math.min(window.innerWidth * 0.12, 120);
+      cell.style.width = `${Math.round(baseSize * Math.min(aspect, 1.5))}px`;
+      cell.style.height = `${Math.round(baseSize / Math.max(aspect, 0.67))}px`;
+
       if (grid[y][x] === 0) {
         cell.classList.add("invisible");
       } else {
@@ -252,7 +296,6 @@ function crearMinimap() {
           posX = x;
           actualizarVista();
           actualizarMinimapExpandido();
-          // Wait for page transition to finish, then close overlay
           setTimeout(() => {
             cerrarMinimapExpandido();
           }, 650);
@@ -265,7 +308,6 @@ function crearMinimap() {
 
   overlayEl.appendChild(expanded);
 
-  // Close on click outside the grid
   overlayEl.addEventListener("click", (e) => {
     if (e.target === overlayEl) {
       cerrarMinimapExpandido();
@@ -282,16 +324,6 @@ function abrirMinimapExpandido() {
 
 function cerrarMinimapExpandido() {
   overlayEl.classList.remove("visible");
-}
-
-function actualizarMinimap() {
-  if (!minimapEl) return;
-  const cells = minimapEl.querySelectorAll(".minimap-cell");
-  cells.forEach(cell => {
-    const cy = parseInt(cell.dataset.y);
-    const cx = parseInt(cell.dataset.x);
-    cell.classList.toggle("activa", cy === posY && cx === posX);
-  });
 }
 
 function actualizarMinimapExpandido() {
@@ -354,38 +386,6 @@ function crearNavLabels(celda) {
 }
 
 // ============================================
-// LANGUAGE SWITCHER
-// ============================================
-
-let langSwitcherEl = null;
-
-function crearLangSwitcher() {
-  langSwitcherEl = document.createElement("div");
-  langSwitcherEl.classList.add("lang-switcher");
-  actualizarLangSwitcher();
-  document.body.appendChild(langSwitcherEl);
-}
-
-function actualizarLangSwitcher() {
-  if (!langSwitcherEl) return;
-  const langs = ["es", "en", "cat"];
-  langSwitcherEl.innerHTML = langs.map((lang, i) => {
-    const active = lang === currentLang ? ' class="active"' : '';
-    const sep = i < langs.length - 1 ? '<span class="lang-sep">/</span>' : '';
-    return `<span${active} data-lang="${lang}">${lang}</span>${sep}`;
-  }).join("");
-
-  // Add click handlers
-  langSwitcherEl.querySelectorAll("span[data-lang]").forEach(el => {
-    el.addEventListener("click", () => {
-      currentLang = el.dataset.lang;
-      renderizarContenido().then(() => actualizarVista());
-      actualizarLangSwitcher();
-    });
-  });
-}
-
-// ============================================
 // VIEW UPDATE
 // ============================================
 
@@ -399,7 +399,7 @@ function actualizarVista() {
     crearNavLabels(activa);
   }
 
-  actualizarMinimap();
+  actualizarHeader();
   actualizarMinimapExpandido();
 }
 
@@ -408,7 +408,7 @@ function actualizarVista() {
 // ============================================
 
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && overlayEl.classList.contains("visible")) {
+  if (e.key === "Escape" && overlayEl && overlayEl.classList.contains("visible")) {
     cerrarMinimapExpandido();
     return;
   }
@@ -436,8 +436,8 @@ document.addEventListener("keydown", (e) => {
 // ============================================
 
 crearPantallas();
-crearMinimap();
-crearLangSwitcher();
+crearHeader();
+crearOverlay();
 renderizarContenido().then(() => {
   actualizarVista();
 });

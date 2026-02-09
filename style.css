@@ -69,35 +69,85 @@ p, h1, h2, h3 {
 }
 
 /* ============================================
-   MINIMAP
+   TOP-LEFT HEADER: page name + minimap + langs
    ============================================ */
 
-.minimap {
+.header-topleft {
   position: fixed;
   top: 3dvh;
-  right: 3dvw;
+  left: 3dvw;
   z-index: 100;
-  display: grid;
-  gap: 3px;
-  cursor: pointer;
+  font-family: "Inknut Antiqua", serif;
 }
 
-.minimap-cell {
-  width: clamp(14px, 2.2dvw, 28px);
-  height: clamp(14px, 2.2dvw, 28px);
+.header-pagename {
+  font-size: clamp(0.75rem, 1dvw, 1rem);
+  color: #000;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  border: none;
+  background: none;
+  padding: 0;
+  font-family: inherit;
+  transition: color 0.3s ease;
+}
+
+.header-pagename:hover {
+  color: #555;
+}
+
+/* Small minimap inline next to page name */
+.header-minimap {
+  display: inline-grid;
+  gap: 2px;
+  vertical-align: middle;
+}
+
+.header-minimap-cell {
+  width: clamp(5px, 0.5dvw, 8px);
   background: #c0c0c0;
-  transition: background 0.3s ease;
-  pointer-events: none;
   border: none;
   padding: 0;
 }
 
-.minimap-cell.activa {
+.header-minimap-cell.activa {
   background: #000000;
 }
 
-.minimap-cell.invisible {
+.header-minimap-cell.invisible {
   visibility: hidden;
+}
+
+.header-langs {
+  margin-top: 0.4em;
+  font-size: clamp(0.65rem, 0.85dvw, 0.85rem);
+  color: #999;
+  display: flex;
+  gap: 0;
+}
+
+.header-langs span {
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.header-langs span:hover {
+  color: #000;
+}
+
+.header-langs span.active {
+  font-weight: 700;
+  color: #000;
+}
+
+.header-langs .lang-sep {
+  cursor: default;
+}
+
+.header-langs .lang-sep:hover {
+  color: #999;
 }
 
 /* ============================================
@@ -131,8 +181,6 @@ p, h1, h2, h3 {
 }
 
 .minimap-expanded-cell {
-  width: clamp(60px, 12dvw, 120px);
-  height: clamp(60px, 12dvw, 120px);
   background: #c0c0c0;
   display: flex;
   align-items: center;
@@ -209,44 +257,6 @@ p, h1, h2, h3 {
 }
 
 /* ============================================
-   LANGUAGE SWITCHER
-   ============================================ */
-
-.lang-switcher {
-  position: fixed;
-  top: 3.5dvh;
-  left: 3dvw;
-  z-index: 100;
-  font-size: clamp(0.75rem, 1dvw, 1rem);
-  color: #999;
-  font-family: "Inknut Antiqua", serif;
-  display: flex;
-  gap: 0;
-}
-
-.lang-switcher span {
-  cursor: pointer;
-  transition: color 0.3s ease;
-}
-
-.lang-switcher span:hover {
-  color: #000;
-}
-
-.lang-switcher span.active {
-  font-weight: 700;
-  color: #000;
-}
-
-.lang-switcher .lang-sep {
-  cursor: default;
-}
-
-.lang-switcher .lang-sep:hover {
-  color: #999;
-}
-
-/* ============================================
    PAGE: PORTFOLIO
    ============================================ */
 
@@ -310,10 +320,11 @@ p, h1, h2, h3 {
 /* ============================================
    PAGE: METODOLOGIA (zigzag)
 
-   5 equal columns. Each paso sits in 1 column.
-   Row 1 (top): sem0=col1, sem2=col3, sem4=col5
-   Row 2 (bottom): sem1=col2, sem3=col4
-   Row 3: timeline bar
+   10-column grid. Each "slot" = 2 base cols.
+   Row 1 (top): sem0 cols 1-2, sem2 cols 5-6, sem4 cols 9-10
+   Row 2 (bottom): sem1 cols 2-5, sem3 cols 6-9
+   Bottom items overlap into neighbours' columns for more text space.
+   Row 3: timeline bar (5 labels each spanning 2 cols)
    ============================================ */
 
 .metodologia-content {
@@ -323,7 +334,7 @@ p, h1, h2, h3 {
 
 .metodo-zigzag {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(10, 1fr);
   grid-template-rows: auto auto auto;
   gap: 0;
   align-items: start;
@@ -331,11 +342,10 @@ p, h1, h2, h3 {
 
 .metodo-paso {
   text-align: center;
-  padding: 0 0.3dvw;
   overflow: visible;
 }
 
-/* Hide "semana X" inside each paso on desktop — shown in timeline bar instead */
+/* Hide "semana X" inside each paso on desktop */
 .metodo-paso .metodo-semana {
   display: none;
 }
@@ -352,7 +362,7 @@ p, h1, h2, h3 {
   line-height: 1.6;
 }
 
-/* Timeline bar at bottom — no border */
+/* Timeline bar at bottom */
 .metodo-timeline-bar {
   grid-column: 1 / -1;
   grid-row: 3;
@@ -370,13 +380,16 @@ p, h1, h2, h3 {
 
 /* Responsive: stack vertically */
 @media (max-width: 768px) {
+  .celda.metodologia {
+    padding: 12dvh 8dvw;
+  }
+
   .metodo-zigzag {
     display: flex;
     flex-direction: column;
     gap: 3.5dvh;
   }
 
-  /* Show "semana X" label inside each paso on mobile */
   .metodo-paso .metodo-semana {
     display: block;
     font-size: clamp(0.6rem, 2.5dvw, 0.75rem);
@@ -390,9 +403,12 @@ p, h1, h2, h3 {
     padding-left: 0;
   }
 
-  .metodo-paso h3,
+  .metodo-paso h3 {
+    padding-left: 2em;
+  }
+
   .metodo-paso p {
-    padding-left: 2.5em;
+    padding-left: 2em;
   }
 
   .metodo-timeline-bar {
