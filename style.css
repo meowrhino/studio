@@ -1,0 +1,464 @@
+@import url("https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@300;400;500;600;700&display=swap");
+
+/* ============================================
+   RESET & BASE
+   ============================================ */
+
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+  font-family: "Inknut Antiqua", serif;
+  font-weight: 400;
+  scroll-behavior: smooth;
+  background: #ffffff;
+  color: #000000;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+p, h1, h2, h3 {
+  margin: 0;
+  padding: 0;
+}
+
+/* ============================================
+   CONTAINER
+   ============================================ */
+
+#content {
+  position: relative;
+  width: 100dvw;
+  height: 100dvh;
+}
+
+/* ============================================
+   CELDAS (PAGES)
+   ============================================ */
+
+.celda {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 10dvh 10dvw;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  color: #000000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.celda.activa {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ============================================
+   MINIMAP
+   ============================================ */
+
+.minimap {
+  position: fixed;
+  top: 3dvh;
+  right: 3dvw;
+  z-index: 100;
+  display: grid;
+  gap: 3px;
+  cursor: pointer;
+}
+
+.minimap-cell {
+  width: clamp(14px, 2.2dvw, 28px);
+  height: clamp(14px, 2.2dvw, 28px);
+  background: #c0c0c0;
+  transition: background 0.3s ease;
+  pointer-events: none;
+  border: none;
+  padding: 0;
+}
+
+.minimap-cell.activa {
+  background: #000000;
+}
+
+.minimap-cell.invisible {
+  visibility: hidden;
+}
+
+/* ============================================
+   EXPANDED MINIMAP (overlay)
+   ============================================ */
+
+.minimap-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100dvw;
+  height: 100dvh;
+  background: rgba(255, 255, 255, 0.97);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.minimap-overlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.minimap-expanded {
+  display: grid;
+  gap: 12px;
+}
+
+.minimap-expanded-cell {
+  width: clamp(60px, 12dvw, 120px);
+  height: clamp(60px, 12dvw, 120px);
+  background: #c0c0c0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+  font-family: "Inknut Antiqua", serif;
+  font-size: clamp(0.5rem, 1dvw, 0.85rem);
+  color: #ffffff;
+  transition: background 0.3s ease, transform 0.3s ease;
+  text-transform: lowercase;
+}
+
+.minimap-expanded-cell:hover {
+  transform: scale(1.06);
+  background: #555;
+}
+
+.minimap-expanded-cell.activa {
+  background: #000000;
+}
+
+.minimap-expanded-cell.invisible {
+  visibility: hidden;
+}
+
+/* ============================================
+   NAVIGATION LABELS (side text)
+   ============================================ */
+
+.nav-label {
+  position: absolute;
+  font-size: clamp(0.7rem, 1dvw, 1rem);
+  color: #999;
+  cursor: pointer;
+  z-index: 10;
+  transition: color 0.3s ease;
+  font-family: "Inknut Antiqua", serif;
+  letter-spacing: 0.05em;
+  border: none;
+  background: none;
+  padding: 0;
+}
+
+.nav-label:hover {
+  color: #000;
+}
+
+.nav-label.left {
+  left: 3dvw;
+  top: 50%;
+  writing-mode: vertical-rl;
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.nav-label.right {
+  right: 3dvw;
+  top: 50%;
+  writing-mode: vertical-rl;
+  transform: translateY(-50%);
+}
+
+.nav-label.top {
+  top: 3dvh;
+  left: 50%;
+  transform: translateX(-50%) rotate(180deg);
+}
+
+.nav-label.bottom {
+  bottom: 3dvh;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* ============================================
+   LANGUAGE SWITCHER
+   ============================================ */
+
+.lang-switcher {
+  position: fixed;
+  top: 3.5dvh;
+  left: 3dvw;
+  z-index: 100;
+  font-size: clamp(0.75rem, 1dvw, 1rem);
+  color: #999;
+  font-family: "Inknut Antiqua", serif;
+  display: flex;
+  gap: 0;
+}
+
+.lang-switcher span {
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.lang-switcher span:hover {
+  color: #000;
+}
+
+.lang-switcher span.active {
+  font-weight: 700;
+  color: #000;
+}
+
+.lang-switcher .lang-sep {
+  cursor: default;
+}
+
+.lang-switcher .lang-sep:hover {
+  color: #999;
+}
+
+/* ============================================
+   PAGE: PORTFOLIO
+   ============================================ */
+
+.portfolio-content {
+  width: 100%;
+  max-width: 1100px;
+}
+
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(10px, 1.5dvw, 20px);
+}
+
+.portfolio-item {
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  display: block;
+}
+
+.portfolio-item:hover {
+  transform: translateY(-3px);
+}
+
+.portfolio-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media (max-width: 1024px) {
+  .portfolio-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .portfolio-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ============================================
+   PAGE: STATEMENT
+   ============================================ */
+
+.statement-content {
+  text-align: center;
+  max-width: 800px;
+  line-height: 2;
+  font-size: clamp(0.85rem, 1.2dvw, 1.15rem);
+}
+
+.statement-content p {
+  margin-bottom: 0.5em;
+}
+
+/* ============================================
+   PAGE: METODOLOGIA (zigzag)
+
+   5 equal columns. Each paso sits in 1 column.
+   Row 1 (top): sem0=col1, sem2=col3, sem4=col5
+   Row 2 (bottom): sem1=col2, sem3=col4
+   Row 3: timeline bar
+   ============================================ */
+
+.metodologia-content {
+  width: 100%;
+  max-width: 1000px;
+}
+
+.metodo-zigzag {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: auto auto auto;
+  gap: 0;
+  align-items: start;
+}
+
+.metodo-paso {
+  text-align: center;
+  padding: 0 0.3dvw;
+  overflow: visible;
+}
+
+/* Hide "semana X" inside each paso on desktop — shown in timeline bar instead */
+.metodo-paso .metodo-semana {
+  display: none;
+}
+
+.metodo-paso h3 {
+  font-size: clamp(0.75rem, 1dvw, 1rem);
+  font-weight: 700;
+  margin-bottom: 0.5em;
+}
+
+.metodo-paso p {
+  font-size: clamp(0.6rem, 0.8dvw, 0.82rem);
+  color: #444;
+  line-height: 1.6;
+}
+
+/* Timeline bar at bottom — no border */
+.metodo-timeline-bar {
+  grid-column: 1 / -1;
+  grid-row: 3;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  padding-top: 3dvh;
+  margin-top: 2dvh;
+}
+
+.metodo-timeline-bar span {
+  font-size: clamp(0.6rem, 0.75dvw, 0.78rem);
+  font-weight: 700;
+  text-align: center;
+}
+
+/* Responsive: stack vertically */
+@media (max-width: 768px) {
+  .metodo-zigzag {
+    display: flex;
+    flex-direction: column;
+    gap: 3.5dvh;
+  }
+
+  /* Show "semana X" label inside each paso on mobile */
+  .metodo-paso .metodo-semana {
+    display: block;
+    font-size: clamp(0.6rem, 2.5dvw, 0.75rem);
+    font-weight: 700;
+    margin-bottom: 0.3em;
+    padding-left: 0;
+  }
+
+  .metodo-paso {
+    text-align: left;
+    padding-left: 0;
+  }
+
+  .metodo-paso h3,
+  .metodo-paso p {
+    padding-left: 2.5em;
+  }
+
+  .metodo-timeline-bar {
+    display: none;
+  }
+}
+
+/* ============================================
+   PAGE: PRICING
+   ============================================ */
+
+.pricing-content {
+  text-align: center;
+  max-width: 750px;
+  line-height: 2;
+}
+
+.pricing-content h2 {
+  font-size: clamp(1rem, 1.5dvw, 1.4rem);
+  font-weight: 700;
+  margin-bottom: 0.3em;
+}
+
+.pricing-content .precio-rango {
+  font-size: clamp(0.9rem, 1.2dvw, 1.15rem);
+  margin-bottom: 0.2em;
+}
+
+.pricing-content .precio-nota {
+  font-size: clamp(0.7rem, 0.9dvw, 0.85rem);
+  color: #999;
+  margin-bottom: 1.5em;
+}
+
+.pricing-content .incluye-titulo {
+  font-size: clamp(0.85rem, 1.1dvw, 1.05rem);
+  font-weight: 600;
+  margin-bottom: 0.3em;
+}
+
+.pricing-content .incluye-item {
+  font-size: clamp(0.75rem, 1dvw, 0.95rem);
+  margin-bottom: 0.1em;
+}
+
+/* ============================================
+   PAGE: POLITICAS
+   ============================================ */
+
+.politicas-content {
+  text-align: center;
+  max-width: 800px;
+  line-height: 2;
+  font-size: clamp(0.8rem, 1.1dvw, 1rem);
+}
+
+.politicas-content p {
+  margin-bottom: 1.5em;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+  .nav-label {
+    font-size: clamp(0.6rem, 2.5dvw, 0.8rem);
+  }
+}

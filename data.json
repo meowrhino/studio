@@ -1,0 +1,265 @@
+{
+  "es": {
+    "welcome": {
+      "titulo": "meowrhino studio"
+    },
+    "statement": {
+      "lineas": [
+        "meowrhino studio es un estudio de diseño web basado en Barcelona",
+        "hacemos webs porque queremos conseguir un internet más común, cercano y divertido",
+        "capacitamos al cliente para el mantenimiento de su proyecto",
+        "buscamos un vínculo distinto con nuestros espacios digitales",
+        "trabajamos con código abierto",
+        "evitamos las cuotas de mantenimiento"
+      ]
+    },
+    "metodologia": {
+      "pasos": [
+        {
+          "semana": "semana 0",
+          "titulo": "puesta en contacto",
+          "descripcion": "se estima una estructura de web\ny una línea estética\nse elabora un presupuesto"
+        },
+        {
+          "semana": "semana 1",
+          "titulo": "reunión presencial",
+          "descripcion": "puesta en común de referentes e ideas\nelaboración de un concepto con cliente\nse planea, prepara y decide\nla forma y el contenido de la web\n(primera propuesta de diseño)."
+        },
+        {
+          "semana": "semana 2",
+          "titulo": "cierre de diseño",
+          "descripcion": "revisión de diseño\nprimer pago"
+        },
+        {
+          "semana": "semana 3",
+          "titulo": "reunión presencial",
+          "descripcion": "preparación del ordenador\npara la actualización de la web"
+        },
+        {
+          "semana": "semana 4",
+          "titulo": "cierre del proyecto",
+          "descripcion": "se da por testeada la web\ncualquier cambio se deberá abonar"
+        }
+      ]
+    },
+    "pricing": {
+      "titulo": "la tarifa base incluye:",
+      "rango": "la tarifa base ronda unos 425-600€",
+      "nota": "(precio sin IVA\nel precio se decide en función de la complejidad de la web\ny de la capacidad de cliente para pagar)",
+      "incluye": [
+        "3 reuniones presenciales de máximo 2hs",
+        "un diseño web personalizado",
+        "elaboración y entrega de código",
+        "sesión formativa donde se enseña al mantenimiento"
+      ]
+    },
+    "politicas": {
+      "parrafos": [
+        "actualmente en meowrhino studio no tenemos política de devoluciones\nlos pagos se realizan al terminar diseño (1a mitad) y al finalizar programación (2a mitad)",
+        "tras la entrega final el cliente tiene un plazo de 10 días hábiles para cualquier consulta\npasado ese plazo se cobrará por hora de trabajo"
+      ]
+    },
+    "portfolio": {
+      "proyectos": [
+        {
+          "nombre": "rikamichie",
+          "imagen": "img/rikamichie.png",
+          "url": "https://rikamichie.com"
+        },
+        {
+          "nombre": "andrea carilla",
+          "imagen": "img/andreacarilla.png",
+          "url": "https://andreacarilla.work"
+        },
+        {
+          "nombre": "conor",
+          "imagen": "img/conor.png",
+          "url": "https://meowrhino.github.io/conor/"
+        },
+        {
+          "nombre": "mike bros",
+          "imagen": "img/mikebros.png",
+          "url": "https://mikebros.com"
+        },
+        {
+          "nombre": "diego san marcos",
+          "imagen": "img/diegosanmarcos.png",
+          "url": "https://meowrhino.github.io/diegosanmarcos/"
+        },
+        {
+          "nombre": "miranda",
+          "imagen": "img/miranda.png",
+          "url": "https://mirandaperezhita.com"
+        },
+        {
+          "nombre": "berta esteve",
+          "imagen": "img/bertaesteve.png",
+          "url": "https://bertaesteve.cat"
+        },
+        {
+          "nombre": "paula barjau",
+          "imagen": "img/paulabarjau.png",
+          "url": "https://meowrhino.github.io/paulabarjau/"
+        },
+        {
+          "nombre": "jaume clotet",
+          "imagen": "img/jaumeclotet.png",
+          "url": "https://jaumeclotet.com"
+        },
+        {
+          "nombre": "el mundo de las jordis",
+          "imagen": "img/elmundodelasjordis.png",
+          "url": "https://elmundodelasjordis.com"
+        }
+      ]
+    }
+  },
+  "en": {
+    "welcome": {
+      "titulo": "meowrhino studio"
+    },
+    "statement": {
+      "lineas": []
+    },
+    "metodologia": {
+      "pasos": []
+    },
+    "pricing": {
+      "titulo": "",
+      "rango": "",
+      "nota": "",
+      "incluye": []
+    },
+    "politicas": {
+      "parrafos": []
+    },
+    "portfolio": {
+      "proyectos": [
+        {
+          "nombre": "rikamichie",
+          "imagen": "img/rikamichie.png",
+          "url": "https://rikamichie.com"
+        },
+        {
+          "nombre": "andrea carilla",
+          "imagen": "img/andreacarilla.png",
+          "url": "https://andreacarilla.work"
+        },
+        {
+          "nombre": "conor",
+          "imagen": "img/conor.png",
+          "url": "https://meowrhino.github.io/conor/"
+        },
+        {
+          "nombre": "mike bros",
+          "imagen": "img/mikebros.png",
+          "url": "https://mikebros.com"
+        },
+        {
+          "nombre": "diego san marcos",
+          "imagen": "img/diegosanmarcos.png",
+          "url": "https://meowrhino.github.io/diegosanmarcos/"
+        },
+        {
+          "nombre": "miranda",
+          "imagen": "img/miranda.png",
+          "url": "https://mirandaperezhita.com"
+        },
+        {
+          "nombre": "berta esteve",
+          "imagen": "img/bertaesteve.png",
+          "url": "https://bertaesteve.cat"
+        },
+        {
+          "nombre": "paula barjau",
+          "imagen": "img/paulabarjau.png",
+          "url": "https://meowrhino.github.io/paulabarjau/"
+        },
+        {
+          "nombre": "jaume clotet",
+          "imagen": "img/jaumeclotet.png",
+          "url": "https://jaumeclotet.com"
+        },
+        {
+          "nombre": "el mundo de las jordis",
+          "imagen": "img/elmundodelasjordis.png",
+          "url": "https://elmundodelasjordis.com"
+        }
+      ]
+    }
+  },
+  "cat": {
+    "welcome": {
+      "titulo": "meowrhino studio"
+    },
+    "statement": {
+      "lineas": []
+    },
+    "metodologia": {
+      "pasos": []
+    },
+    "pricing": {
+      "titulo": "",
+      "rango": "",
+      "nota": "",
+      "incluye": []
+    },
+    "politicas": {
+      "parrafos": []
+    },
+    "portfolio": {
+      "proyectos": [
+        {
+          "nombre": "rikamichie",
+          "imagen": "img/rikamichie.png",
+          "url": "https://rikamichie.com"
+        },
+        {
+          "nombre": "andrea carilla",
+          "imagen": "img/andreacarilla.png",
+          "url": "https://andreacarilla.work"
+        },
+        {
+          "nombre": "conor",
+          "imagen": "img/conor.png",
+          "url": "https://meowrhino.github.io/conor/"
+        },
+        {
+          "nombre": "mike bros",
+          "imagen": "img/mikebros.png",
+          "url": "https://mikebros.com"
+        },
+        {
+          "nombre": "diego san marcos",
+          "imagen": "img/diegosanmarcos.png",
+          "url": "https://meowrhino.github.io/diegosanmarcos/"
+        },
+        {
+          "nombre": "miranda",
+          "imagen": "img/miranda.png",
+          "url": "https://mirandaperezhita.com"
+        },
+        {
+          "nombre": "berta esteve",
+          "imagen": "img/bertaesteve.png",
+          "url": "https://bertaesteve.cat"
+        },
+        {
+          "nombre": "paula barjau",
+          "imagen": "img/paulabarjau.png",
+          "url": "https://meowrhino.github.io/paulabarjau/"
+        },
+        {
+          "nombre": "jaume clotet",
+          "imagen": "img/jaumeclotet.png",
+          "url": "https://jaumeclotet.com"
+        },
+        {
+          "nombre": "el mundo de las jordis",
+          "imagen": "img/elmundodelasjordis.png",
+          "url": "https://elmundodelasjordis.com"
+        }
+      ]
+    }
+  }
+}
