@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nubes Estilo Chicory - Vista Previa</title>
+  <link rel="stylesheet" href="nubesChicory.css">
+  <style>
+    /* Estilos adicionales para la vista previa */
+    .preview-info {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 255, 255, 0.95);
+      border: 5px solid #1a1a1a;
+      border-radius: 20px;
+      padding: 30px 40px;
+      max-width: 500px;
+      z-index: 999;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      font-family: 'Comic Sans MS', 'Chalkboard SE', 'Comic Neue', cursive, sans-serif;
+    }
+
+    .preview-info h1 {
+      font-size: 2em;
+      margin-bottom: 15px;
+      color: #1a1a1a;
+      text-shadow: 2px 2px 0 #ffb3d9;
+    }
+
+    .preview-info p {
+      font-size: 1.1em;
+      line-height: 1.6;
+      color: #333;
+      margin-bottom: 12px;
+    }
+
+    .preview-info .emoji {
+      font-size: 3em;
+      margin: 15px 0;
+      display: block;
+    }
+
+    .preview-info .controls-hint {
+      background: #f0f0f0;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 20px;
+      border: 2px solid #1a1a1a;
+    }
+
+    .preview-info .controls-hint strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.2em;
+    }
+
+    .close-info {
+      background: #ffb3d9;
+      border: 3px solid #1a1a1a;
+      border-radius: 10px;
+      padding: 12px 24px;
+      font-size: 1.1em;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 20px;
+      font-family: inherit;
+      transition: all 0.2s ease;
+    }
+
+    .close-info:hover {
+      background: #ff99cc;
+      transform: scale(1.05);
+    }
+
+    .close-info:active {
+      transform: scale(0.95);
+    }
+
+    .preview-info.hidden {
+      display: none;
+    }
+
+    /* Botón para mostrar info de nuevo */
+    #showInfo {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      border: 3px solid #1a1a1a;
+      border-radius: 25px;
+      padding: 10px 20px;
+      font-size: 0.9em;
+      cursor: pointer;
+      z-index: 998;
+      font-family: inherit;
+      transition: all 0.2s ease;
+    }
+
+    #showInfo:hover {
+      background: #ffffff;
+      transform: translateX(-50%) scale(1.05);
+    }
+
+    @media (max-width: 600px) {
+      .preview-info {
+        padding: 20px;
+        max-width: 90%;
+      }
+
+      .preview-info h1 {
+        font-size: 1.5em;
+      }
+
+      .preview-info p {
+        font-size: 0.95em;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Contenedor de fondo con patrón -->
+  <div id="backgroundContainer"></div>
+
+  <!-- Contenedor de nubes SVG -->
+  <div id="cloudsContainer"></div>
+
+  <!-- Botones de control -->
+  <nav>
+    <button id="regenerateClouds" aria-label="regenerar nubes" title="Regenerar nubes">☁️</button>
+    <button id="toggleTheme" aria-label="cambiar tema" title="Cambiar tema">☀️</button>
+  </nav>
+
+  <!-- Panel de información -->
+  <div class="preview-info" id="infoPanel">
+    <span class="emoji">🎨</span>
+    <h1>Nubes Estilo Chicory</h1>
+    <p>
+      Este generador recrea el estilo visual de las nubes del videojuego <strong>Chicory: A Colorful Tale</strong>.
+    </p>
+    <p>
+      Las nubes tienen contornos gruesos estilo cartoon, formas orgánicas dibujadas a mano, y pueden incluir texturas
+      de puntos o líneas en su interior.
+    </p>
+    <div class="controls-hint">
+      <strong>Controles:</strong>
+      ☁️ Regenerar nubes con nuevas formas y colores<br>
+      ☀️/🌙/🎨 Cambiar entre temas (día/noche/colorido)
+    </div>
+    <button class="close-info" id="closeInfo">¡Entendido!</button>
+  </div>
+
+  <!-- Botón para mostrar info de nuevo -->
+  <button id="showInfo" style="display: none;">ℹ️ Mostrar información</button>
+
+  <script src="nubesChicory.js"></script>
+  <script>
+    // Gestión del panel de información
+    const infoPanel = document.getElementById('infoPanel');
+    const closeInfoBtn = document.getElementById('closeInfo');
+    const showInfoBtn = document.getElementById('showInfo');
+
+    closeInfoBtn.addEventListener('click', () => {
+      infoPanel.classList.add('hidden');
+      showInfoBtn.style.display = 'block';
+    });
+
+    showInfoBtn.addEventListener('click', () => {
+      infoPanel.classList.remove('hidden');
+      showInfoBtn.style.display = 'none';
+    });
+
+    // Cerrar con tecla Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !infoPanel.classList.contains('hidden')) {
+        closeInfoBtn.click();
+      }
+    });
+  </script>
+</body>
+
+</html>
