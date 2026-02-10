@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.gameuidatabase.com)",
+      "WebFetch(domain:css-tricks.com)",
+      "WebFetch(domain:blog.logrocket.com)",
+      "WebFetch(domain:www.fffuel.co)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:banov.itch.io)"
+    ]
+  }
+}
